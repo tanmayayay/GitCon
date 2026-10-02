@@ -1,5 +1,5 @@
         # Service Mesh: Istio vs Linkerd
-        > **Date:** 2026-09-25 | **Category:** System Design | **Confidence:** ⭐⭐⭐⭐⭐
+        > **Date:** 2026-10-02 | **Category:** System Design | **Confidence:** ⭐⭐⭐⭐⭐
 
         ## Overview
         Notes captured while researching scalability patterns for a high-throughput service.
@@ -34,3 +34,7 @@ const on   = (e, fn) => bus.addEventListener(e, fn);
         - [ ] Prototype a minimal implementation
         - [ ] Benchmark against naive approach
         - [ ] Write a short blog post summarising findings
+
+
+---
+*Last updated: 2026-10-02T14:00:03.846799Z*
