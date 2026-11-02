@@ -1,5 +1,5 @@
         # Database Connection Pooling Best Practices
-        > **Date:** 2026-09-28 | **Category:** Backend | **Confidence:** ⭐⭐⭐
+        > **Date:** 2026-11-02 | **Category:** Backend | **Confidence:** ⭐⭐⭐⭐⭐
 
         ## Why I'm Looking Into This
         Production incident last week exposed a gap in my understanding.
@@ -8,11 +8,22 @@
         ## Core Idea
 
 ```python
-import hashlib, hmac
+from functools import wraps
+import time
 
-def verify_webhook(payload: bytes, signature: str, secret: str) -> bool:
-    expected = hmac.new(secret.encode(), payload, hashlib.sha256).hexdigest()
-    return hmac.compare_digest(f'sha256={expected}', signature)
+def rate_limit(calls, period):
+    min_interval = period / calls
+    last_call = [0.0]
+    def decorator(fn):
+        @wraps(fn)
+        def wrapper(*args, **kwargs):
+            elapsed = time.monotonic() - last_call[0]
+            if elapsed < min_interval:
+                time.sleep(min_interval - elapsed)
+            last_call[0] = time.monotonic()
+            return fn(*args, **kwargs)
+        return wrapper
+    return decorator
 ```
 
 
@@ -35,3 +46,7 @@ def verify_webhook(payload: bytes, signature: str, secret: str) -> bool:
         ## Links
         - [Node.js Best Practices](https://github.com/goldbergyoni/nodebestpractices)
         - [PostgreSQL Docs](https://www.postgresql.org/docs/)
+
+
+---
+*Last updated: 2026-11-02T15:00:04.310561Z*
