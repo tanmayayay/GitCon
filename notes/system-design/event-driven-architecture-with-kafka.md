@@ -1,5 +1,5 @@
         # Event-Driven Architecture with Kafka
-        > **Date:** 2026-09-20 | **Category:** System Design | **Confidence:** ⭐⭐⭐⭐⭐
+        > **Date:** 2026-11-23 | **Category:** System Design | **Confidence:** ⭐⭐⭐⭐
 
         ## Overview
         Notes captured while researching scalability patterns for a high-throughput service.
@@ -18,14 +18,10 @@
         ## Code Reference
 
 ```js
-const retry = async (fn, retries = 3, delay = 500) => {
-  try { return await fn(); }
-  catch (err) {
-    if (retries === 0) throw err;
-    await new Promise(r => setTimeout(r, delay));
-    return retry(fn, retries - 1, delay * 2);
-  }
-};
+// Lightweight event bus
+const bus = new EventTarget();
+const emit = (e, d) => bus.dispatchEvent(Object.assign(new Event(e), { detail: d }));
+const on   = (e, fn) => bus.addEventListener(e, fn);
 ```
 
 
@@ -38,3 +34,7 @@ const retry = async (fn, retries = 3, delay = 500) => {
         - [ ] Prototype a minimal implementation
         - [ ] Benchmark against naive approach
         - [ ] Write a short blog post summarising findings
+
+
+---
+*Last updated: 2026-11-23T15:00:06.483560Z*
